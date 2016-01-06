@@ -59,6 +59,8 @@ Rails.application.routes.draw do
         end
       end
 
+      get 'merchants/revenue', to: 'merchants#all_revenue_by_date', defaults: { format: :json }
+
       resources :transactions, except: [:new, :edit], defaults: { format: :json } do
         collection do
           get 'find'
