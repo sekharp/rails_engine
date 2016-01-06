@@ -29,6 +29,12 @@ class Api::V1::MerchantsController < ApplicationController
     respond_with Merchant.find_by(id: params[:id]).invoices
   end
 
+  def revenue
+    invoices_ids = Merchant.find_by(id: params[:id]).transactions.where(result: "success").pluck(:invoice_id)
+    invoices = Invoice.find(invoices_ids)
+    respond_with invoices.map { |invoice| invoice.invoice_items.map { |ii| ii.total_price } }.flatten.sum.round(2)
+  end
+
   private
 
   def merchant_params

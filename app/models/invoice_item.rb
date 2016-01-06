@@ -7,6 +7,10 @@ class InvoiceItem < ActiveRecord::Base
     order("RANDOM()").first
   end
 
+  def total_price
+    self.unit_price.to_f * self.quantity
+  end
+
   private
 
   def format_dollar
