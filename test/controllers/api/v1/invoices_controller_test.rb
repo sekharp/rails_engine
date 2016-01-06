@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class Api::V1::InvoicesControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test '#index returns all invoices' do
+    get :index, format: :json
+    assert_response :success
+  end
 end
