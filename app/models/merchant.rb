@@ -38,11 +38,17 @@ class Merchant < ActiveRecord::Base
     { "revenue" => total}
   end
 
-  def self.all_revenue_by_date(params)
+  def self.all_revenue_by_date(date)
     total = Invoice.joins(:transactions, :invoice_items)
-    .where("transactions.result = ? AND invoices.created_at = ?", "success", params[:date])
+    .where("transactions.result = ? AND invoices.created_at = ?", "success", date)
     .sum("invoice_items.quantity * invoice_items.unit_price")
     { "total_revenue" => total }
+  end
+
+  def pending_customers
+    need_to_pay = []
+    self.invoices.pending.map { |invoice| need_to_pay << invoice.customer }
+    need_to_pay.uniq
   end
 
   # REFACTOR ALL OF THESE TO HAVE LOGIC IN THE MODEL FROM THE CONTROLLER

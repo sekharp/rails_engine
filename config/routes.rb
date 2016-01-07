@@ -49,6 +49,7 @@ Rails.application.routes.draw do
           get 'find'
           get 'find_all'
           get 'random'
+          get 'revenue', to: 'merchants#all_revenue_by_date', defaults: { format: :json }
         end
 
         member do
@@ -56,10 +57,9 @@ Rails.application.routes.draw do
           get 'invoices'
           get 'revenue'
           get 'favorite_customer'
+          get 'customers_with_pending_invoices'
         end
       end
-
-      get 'merchants/revenue', to: 'merchants#all_revenue_by_date', defaults: { format: :json }
 
       resources :transactions, except: [:new, :edit], defaults: { format: :json } do
         collection do

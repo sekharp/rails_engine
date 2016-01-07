@@ -32,22 +32,17 @@ class Api::V1::MerchantsController < ApplicationController
   def revenue
     respond_with Merchant.find_by(id: params[:id]).single_merchant_revenue(params)
   end
-  #   total_revenue = Merchant.find_by(id: params[:id]).invoices
-  #   .joins(:transactions)
-  #   .successful
-  #   .joins(:invoice_items)
-  #   .where(status: "shipped")
-  #   .sum("quantity * unit_price")
-  #   hash = { "revenue" => total_revenue }
-  #   respond_with hash
-  # end
 
   def all_revenue_by_date
-    respond_with Merchant.all_revenue_by_date(params)
+    respond_with Merchant.all_revenue_by_date(params[:date])
   end
 
   def favorite_customer
     respond_with Merchant.find_by(id: params[:id]).favorite_customer
+  end
+
+  def customers_with_pending_invoices
+    respond_with Merchant.find_by(id: params[:id]).pending_customers
   end
 
   private
