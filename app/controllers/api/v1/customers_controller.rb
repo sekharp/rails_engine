@@ -6,11 +6,11 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def show
-    respond_with Customer.find_by(id: params[:id])
+    respond_with find_customer
   end
 
   def find
-    respond_with Customer.find_by(customer_params)
+    respond_with find_customer
   end
 
   def find_all
@@ -22,20 +22,22 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def invoices
-    respond_with Customer.find_by(id: params[:id]).invoices
+    respond_with find_customer.invoices
   end
 
   def transactions
-    respond_with Customer.find_by(id: params[:id]).transactions
+    respond_with find_customer.transactions
   end
 
   def favorite_merchant
-    respond_with Customer.find_by(id: params[:id]).favorite_merchant
+    respond_with find_customer.favorite_merchant
   end
 
   private
 
-  # write private method for finding customer by param id
+  def find_customer
+    Customer.find_by(customer_params)
+  end
 
   def customer_params
     params.permit(:id, :first_name, :last_name, :created_at, :updated_at)

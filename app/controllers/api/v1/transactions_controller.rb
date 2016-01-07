@@ -6,11 +6,11 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   def show
-    respond_with Transaction.find_by(id: params[:id])
+    respond_with find_transaction
   end
 
   def find
-    respond_with Transaction.find_by(transaction_params)
+    respond_with find_transaction
   end
 
   def find_all
@@ -22,10 +22,14 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   def invoice
-    respond_with Transaction.find_by(id: params[:id]).invoice
+    respond_with find_transaction.invoice
   end
 
   private
+
+  def find_transaction
+    Transaction.find_by(transaction_params)
+  end
 
   def transaction_params
     params.permit(:id, :invoice_id, :credit_card_number, :result, :created_at, :updated_at)

@@ -28,14 +28,14 @@ class Merchant < ActiveRecord::Base
   def sum_of_successful_transactions
     total = self.invoices.successful.joins(:invoice_items)
     .sum("invoice_items.quantity * invoice_items.unit_price").to_s
-    { "revenue" => total}
+    { "revenue" => total }
   end
 
   def sum_of_successful_transactions_by_date(date)
     total = self.invoices.where(created_at: date).successful
     .joins(:invoice_items)
     .sum("invoice_items.quantity * invoice_items.unit_price").to_s
-    { "revenue" => total}
+    { "revenue" => total }
   end
 
   def self.all_revenue_by_date(date)
@@ -53,7 +53,4 @@ class Merchant < ActiveRecord::Base
 
   # REFACTOR ALL OF THESE TO HAVE LOGIC IN THE MODEL FROM THE CONTROLLER
 
-  # def somemethod
-  #   Item.joins(:invoice_items).where( invoice_items: { unit_price: 55 } )
-  # end
 end

@@ -6,11 +6,11 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def show
-    respond_with Merchant.find_by(id: params[:id])
+    respond_with find_merchant
   end
 
   def find
-    respond_with Merchant.find_by(merchant_params)
+    respond_with find_merchant
   end
 
   def find_all
@@ -22,15 +22,15 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def items
-    respond_with Merchant.find_by(id: params[:id]).items
+    respond_with find_merchant.items
   end
 
   def invoices
-    respond_with Merchant.find_by(id: params[:id]).invoices
+    respond_with find_merchant.invoices
   end
 
   def revenue
-    respond_with Merchant.find_by(id: params[:id]).single_merchant_revenue(params)
+    respond_with find_merchant.single_merchant_revenue(params)
   end
 
   def all_revenue_by_date
@@ -38,14 +38,18 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def favorite_customer
-    respond_with Merchant.find_by(id: params[:id]).favorite_customer
+    respond_with find_merchant.favorite_customer
   end
 
   def customers_with_pending_invoices
-    respond_with Merchant.find_by(id: params[:id]).pending_customers
+    respond_with find_merchant.pending_customers
   end
 
   private
+
+  def find_merchant
+    Merchant.find_by(merchant_params)
+  end
 
   def merchant_params
     params.permit(:id, :name, :created_at, :updated_at)
